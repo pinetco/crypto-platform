@@ -1,14 +1,19 @@
 <div>
-    <div class="grid grid-cols-3">
+    <div class="grid grid-cols-3 gap-8">
         <div>
             <label for="search" class="block text-sm font-medium text-gray-700">Quick search</label>
-            <div class="mt-1 relative flex items-center">
-                <input type="text" wire:model="search" id="search" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full pr-12 sm:text-sm border-gray-300 rounded-md">
-                <div class="absolute inset-y-0 right-0 flex py-1.5 pr-1.5">
-                    <kbd class="inline-flex items-center border border-gray-200 rounded px-2 text-sm font-sans font-medium text-gray-400">
-                        ⌘K
-                    </kbd>
-                </div>
+            <x-jet-input id="search" class="block mt-1 w-full" type="text" wire:model="search"/>
+        </div>
+
+        <div class="col-span-2">
+            <label for="search" class="block text-sm font-medium text-gray-700">Filter by popular tokens</label>
+            <div class="mt-1">
+                @foreach($popular_tokens as $token)
+                    <input id="token_{{ $token->id }}"  wire:model="token_ids" value="{{ $token->id }}" type="checkbox" class="hidden focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded">
+                    <label for="token_{{ $token->id }}" class="inline-flex items-center px-2 py-0.5 rounded text-sm font-medium text-blue-800 {{ in_array($token->id, $token_ids) ? 'bg-blue-300' : 'bg-blue-100'  }}">
+                        {{ $token->name }}
+                    </label>
+                @endforeach
             </div>
         </div>
     </div>

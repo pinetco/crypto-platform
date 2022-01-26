@@ -12,14 +12,24 @@ class Tokens extends Component
 
     public $search;
 
+    public $token_ids = [];
+
+    public $popular_tokens = [];
+
     protected $queryString = [
-        'search' => ['except' => '']
+        'search' => ['except' => ''],
+        'token_ids' => ['except' => []],
     ];
+
+    public function mount()
+    {
+        $this->popular_tokens = \App\Models\Token::popular()->get();
+    }
 
     public function render()
     {
         return view('livewire.tokens', [
-            'token_combinations' => $this->getTokenCombinations()
+            'token_combinations' => $this->getTokenCombinations(),
         ]);
     }
 
@@ -33,10 +43,18 @@ class Tokens extends Component
         return TokenCombination::orderByDesc('apy')
             ->with('from_token:id,name', 'to_token:id,name')
             ->when($this->search, function ($q) {
-                $q->whereHas('from_token', function($q) {
-                    $q->where('name', 'like', "%{$this->search}%");
-                })->orWhereHas('to_token', function($q) {
-                    $q->where('name', 'like', "%{$this->search}%");
+                $q->where(function ($q) {
+                    $q->whereHas('from_token', function ($q) {
+                        $q->where('name', 'like', "%{$this->search}%");
+                    })->orWhereHas('to_token', function ($q) {
+                        $q->where('name', 'like', "%{$this->search}%");
+                    });
+                });
+            })
+            ->when($this->token_ids, function ($q) {
+                $q->where(function ($q) {
+                    $q->whereIn('from_token_id', $this->token_ids)
+                        ->orWhereIn('to_token_id', $this->token_ids);
                 });
             })
             ->paginate();

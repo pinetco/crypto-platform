@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Importers\RaydiumImporter;
+use App\Models\Token;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder

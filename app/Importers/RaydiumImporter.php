@@ -18,6 +18,10 @@ class RaydiumImporter
         foreach ($response->collect() as $record) {
             list($tokenOneName, $tokenTwoName) = explode('-', $record['name']);
 
+            if ($tokenOneName == 'unknown' || $tokenTwoName == 'unknown') {
+                continue;
+            }
+
             $fromToken = Token::firstOrCreate([
                 'name' => $tokenOneName
             ]);
@@ -33,5 +37,17 @@ class RaydiumImporter
                 'apy' => $record['apy'],
             ]);
         }
+
+        $this->setPopularTokens();
+    }
+
+    protected function setPopularTokens()
+    {
+        Token::has('combinations', '>', 3)
+            ->inRandomOrder()
+            ->take(7)
+            ->get()
+            ->each
+            ->update(['is_popular' => true]);
     }
 }
