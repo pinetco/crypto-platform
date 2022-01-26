@@ -7,10 +7,10 @@
 
         <div class="col-span-2">
             <label for="search" class="block text-sm font-medium text-gray-700">Filter by popular tokens</label>
-            <div class="mt-1">
+            <div class="mt-1 space-x-1">
                 @foreach($popular_tokens as $token)
                     <input id="token_{{ $token->id }}"  wire:model="token_ids" value="{{ $token->id }}" type="checkbox" class="hidden focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded">
-                    <label for="token_{{ $token->id }}" class="inline-flex items-center px-2 py-0.5 rounded text-sm font-medium text-blue-800 {{ in_array($token->id, $token_ids) ? 'bg-blue-300' : 'bg-blue-100'  }}">
+                    <label for="token_{{ $token->id }}" class="inline-flex cursor-pointer items-center px-3 py-1 rounded text-sm font-bold text-blue-800 {{ in_array($token->id, $token_ids) ? 'bg-blue-300' : 'bg-blue-100'  }}">
                         {{ $token->name }}
                     </label>
                 @endforeach
