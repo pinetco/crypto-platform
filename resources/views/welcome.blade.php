@@ -95,10 +95,10 @@
                                 <div class="lg:py-24">
                                     <h1 class="mt-4 text-4xl tracking-tight font-extrabold text-white sm:mt-5 sm:text-6xl lg:mt-6 xl:text-6xl">
                                         <span class="block">A better way to</span>
-                                        <span class="pb-3 block bg-clip-text text-transparent bg-gradient-to-r from-teal-200 to-cyan-400 sm:pb-5">lend your crypto tokens</span>
+                                        <span class="pb-3 block bg-clip-text text-transparent bg-gradient-to-r from-teal-200 to-cyan-400 sm:pb-5">lend your crypto</span>
                                     </h1>
                                     <p class="text-base text-gray-300 sm:text-xl lg:text-lg xl:text-xl">
-                                        Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui Lorem cupidatat commodo. Elit sunt amet fugiat veniam occaecat fugiat.
+                                        Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui Lorem cupidatat commodo.
                                     </p>
                                     <div class="mt-10 sm:mt-12">
                                         <form action="#" class="sm:max-w-xl sm:mx-auto lg:mx-0">
