@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTokenCombinationsTable extends Migration
+class CreateFarmsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,10 @@ class CreateTokenCombinationsTable extends Migration
      */
     public function up()
     {
-        Schema::create('token_combinations', function (Blueprint $table) {
+        Schema::create('farms', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('farm_id');
-            $table->foreignId('from_token_id');
-            $table->foreignId('to_token_id');
-            $table->double('apy')->default(0);
+            $table->string('name');
+            $table->string('url')->nullable();
             $table->timestamps();
         });
     }
@@ -30,6 +28,6 @@ class CreateTokenCombinationsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('token_combinations');
+        Schema::dropIfExists('farms');
     }
 }

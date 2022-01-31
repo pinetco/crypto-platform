@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use App\Importers\RaydiumImporter;
-use App\Models\Token;
+use App\Importers\SolfarmImporter;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -18,5 +18,6 @@ class DatabaseSeeder extends Seeder
         // \App\Models\User::factory(10)->create();
 
         RaydiumImporter::make()->handle();
+        SolfarmImporter::make()->handle();
     }
 }

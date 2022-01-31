@@ -41,7 +41,7 @@ class Tokens extends Component
     protected function getTokenCombinations()
     {
         return TokenCombination::orderByDesc('apy')
-            ->with('from_token:id,name', 'to_token:id,name')
+            ->with('farm:id,name,url', 'from_token:id,name', 'to_token:id,name')
             ->when($this->search, function ($q) {
                 $q->where(function ($q) {
                     $q->whereHas('from_token', function ($q) {

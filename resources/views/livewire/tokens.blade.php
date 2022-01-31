@@ -30,6 +30,9 @@
                             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                 APY
                             </th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Farm
+                            </th>
                             <th scope="col" class="relative px-6 py-3">
                                 <span class="sr-only">Edit</span>
                             </th>
@@ -47,6 +50,11 @@
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 {{ $token_combination->apy }}%
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <a href="{{ $token_combination->farm->url }}" target="_blank" class="text-indigo-600 hover:text-indigo-900">
+                                    {{ $token_combination->farm->name }}
+                                </a>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                 <a href="#" class="text-indigo-600 hover:text-indigo-900">View</a>

@@ -2,18 +2,19 @@
 
 namespace App\Importers;
 
-use App\Models\Token;
-use App\Models\TokenCombination;
-use App\Traits\Makeable;
+use App\Models\Farm;
 use Http;
 
-class RaydiumImporter
+class RaydiumImporter extends Importer
 {
-    use Makeable;
-
     public function handle()
     {
         $response = Http::get('https://api.raydium.io/pairs');
+
+        $farm = Farm::firstOrCreate([
+            'name' => 'Raydium',
+            'url' => 'https://raydium.io/farms',
+        ]);
 
         foreach ($response->collect() as $record) {
             list($tokenOneName, $tokenTwoName) = explode('-', $record['name']);
@@ -22,32 +23,9 @@ class RaydiumImporter
                 continue;
             }
 
-            $fromToken = Token::firstOrCreate([
-                'name' => $tokenOneName
-            ]);
-
-            $toToken = Token::firstOrCreate([
-                'name' => $tokenTwoName
-            ]);
-
-            $tokenCombination = TokenCombination::firstOrCreate([
-                'from_token_id' => $fromToken->id,
-                'to_token_id' => $toToken->id,
-            ], [
-                'apy' => $record['apy'],
-            ]);
+            $farm->importTokens($tokenOneName, $tokenTwoName, $record['apy']);
         }
 
         $this->setPopularTokens();
-    }
-
-    protected function setPopularTokens()
-    {
-        Token::has('combinations', '>', 3)
-            ->inRandomOrder()
-            ->take(7)
-            ->get()
-            ->each
-            ->update(['is_popular' => true]);
     }
 }

@@ -11,6 +11,11 @@ class TokenCombination extends Model
 
     protected $guarded = [];
 
+    public function farm()
+    {
+        return $this->belongsTo(Farm::class);
+    }
+
     public function from_token()
     {
         return $this->belongsTo(Token::class);
