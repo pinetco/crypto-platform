@@ -8,7 +8,7 @@ use Livewire\WithPagination;
 
 class Tokens extends Component
 {
-    use WithPagination;
+    use WithPagination, WithSorting;
 
     public $search;
 
@@ -40,8 +40,7 @@ class Tokens extends Component
 
     protected function getTokenCombinations()
     {
-        return TokenCombination::orderByDesc('apy')
-            ->with('farm:id,name,url', 'from_token:id,name', 'to_token:id,name')
+        return TokenCombination::with('farm:id,name,url', 'from_token:id,name', 'to_token:id,name')
             ->when($this->search, function ($q) {
                 $q->where(function ($q) {
                     $q->whereHas('from_token', function ($q) {
@@ -56,6 +55,11 @@ class Tokens extends Component
                     $q->whereIn('from_token_id', $this->token_ids)
                         ->orWhereIn('to_token_id', $this->token_ids);
                 });
+            })
+            ->when($this->sort_by, function ($q) {
+                $q->orderBy($this->sort_by, $this->sort_direction);
+            }, function ($q) {
+                $q->orderByDesc('apy');
             })
             ->paginate();
     }
