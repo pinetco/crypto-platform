@@ -2,7 +2,9 @@
 
 namespace Database\Seeders;
 
+use App\Importers\OrcaImporter;
 use App\Importers\RaydiumImporter;
+use App\Importers\SolanaLidoImporter;
 use App\Importers\SolfarmImporter;
 use Illuminate\Database\Seeder;
 
@@ -19,5 +21,7 @@ class DatabaseSeeder extends Seeder
 
         RaydiumImporter::make()->handle();
         SolfarmImporter::make()->handle();
+        OrcaImporter::make()->handle();
+        SolanaLidoImporter::make()->handle();
     }
 }

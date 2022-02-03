@@ -11,7 +11,7 @@ class Farm extends Model
 
     protected $guarded = [];
 
-    public function importTokens($tokenOneName, $tokenTwoName, $apy, $properties = [])
+    public function importTokens($tokenOneName, $tokenTwoName, $properties = [])
     {
         $fromToken = Token::firstOrCreate([
             'name' => $tokenOneName
@@ -25,8 +25,6 @@ class Farm extends Model
             'farm_id' => $this->id,
             'from_token_id' => $fromToken->id,
             'to_token_id' => $toToken->id,
-        ], [
-            'apy' => $apy,
-        ]);
+        ], $properties);
     }
 }

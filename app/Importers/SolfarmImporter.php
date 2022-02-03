@@ -23,7 +23,10 @@ class SolfarmImporter extends Importer
 
             list($tokenOneName, $tokenTwoName) = explode('-', $record['name']);
 
-            $farm->importTokens($tokenOneName, $tokenTwoName, $record['apy']);
+            $farm->importTokens($tokenOneName, $tokenTwoName, [
+                'apy' => round($record['apy'], 5),
+                'liquidity' => round($record['liquidity'], 5),
+            ]);
         }
 
         $this->setPopularTokens();

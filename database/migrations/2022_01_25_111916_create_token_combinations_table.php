@@ -19,6 +19,7 @@ class CreateTokenCombinationsTable extends Migration
             $table->foreignId('from_token_id');
             $table->foreignId('to_token_id');
             $table->double('apy')->default(0);
+            $table->double('liquidity')->default(0);
             $table->timestamps();
         });
     }
