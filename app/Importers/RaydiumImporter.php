@@ -18,6 +18,7 @@ class RaydiumImporter extends Importer
 
         $protocol = Protocol::firstOrCreate([
             'name' => 'Raydium',
+            'icon_path' => 'icons/raydium.svg',
             'url' => 'https://raydium.io/farms',
         ]);
 

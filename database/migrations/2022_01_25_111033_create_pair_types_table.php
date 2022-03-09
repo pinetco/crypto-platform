@@ -17,6 +17,7 @@ class CreatePairTypesTable extends Migration
             $table->id();
             $table->string('identifier')->unique();
             $table->string('name');
+            $table->json('token_combinations');
         });
     }
 

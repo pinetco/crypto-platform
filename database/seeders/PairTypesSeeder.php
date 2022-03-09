@@ -15,17 +15,59 @@ class PairTypesSeeder extends Seeder
     public function run()
     {
         $data = [
-            'single_sided_stable' => 'Single sided Stablecoin',
-            'single_sided_other' => 'Single sided Other',
-            'stable_to_stable' => 'Stablecoin-Stablecoin Pair',
-            'stable_to_other' => 'Stablecoin-Other Pair',
-            'single_sided_sol' => 'Single sided SOL',
-            'sol_to_stable' => 'SOL-Stablecoin Pair',
-            'sol_to_sol' => 'SOL-SOL Pair',
+            [
+                'identifier' => 'single_sided_stable',
+                'name' => 'Single sided Stablecoin',
+                'token_combinations' => [
+                    'stable',
+                ],
+            ],
+            [
+                'identifier' => 'single_sided_other',
+                'name' => 'Single sided Other',
+                'token_combinations' => [
+                    'other',
+                ],
+            ],
+            [
+                'identifier' => 'stable_to_stable',
+                'name' => 'Stablecoin-Stablecoin Pair',
+                'token_combinations' => [
+                    'stable', 'stable',
+                ],
+            ],
+            [
+                'identifier' => 'stable_to_other',
+                'name' => 'Stablecoin-Other Pair',
+                'token_combinations' => [
+                    'stable', 'other',
+                ],
+            ],
+            [
+                'identifier' => 'single_sided_sol',
+                'name' => 'Single sided SOL',
+                'token_combinations' => [
+                    'sol',
+                ],
+            ],
+            [
+                'identifier' => 'sol_to_stable',
+                'name' => 'SOL-Stablecoin Pair',
+                'token_combinations' => [
+                    'sol', 'stable',
+                ],
+            ],
+            [
+                'identifier' => 'sol_to_sol',
+                'name' => 'SOL-SOL Pair',
+                'token_combinations' => [
+                    'sol', 'sol',
+                ],
+            ],
         ];
 
-        foreach ($data as $identifier => $name) {
-            PairType::create(compact('identifier', 'name'));
+        foreach ($data as $record) {
+            PairType::create($record);
         }
     }
 }

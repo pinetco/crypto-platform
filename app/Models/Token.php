@@ -11,6 +11,11 @@ class Token extends Model
 
     protected $guarded = [];
 
+    public function token_type()
+    {
+        return $this->belongsTo(TokenType::class);
+    }
+
     public function combinations()
     {
         return $this->belongsToMany(self::class, TokenCombination::class, 'from_token_id', 'to_token_id');
