@@ -16,53 +16,60 @@ class PairTypesSeeder extends Seeder
     {
         $data = [
             [
-                'identifier' => 'single_sided_stable',
+                'identifier' => PairType::SINGLE_SIDED_STABLE,
                 'name' => 'Single sided Stablecoin',
-                'token_combinations' => [
-                    'stable',
-                ],
             ],
             [
-                'identifier' => 'single_sided_other',
+                'identifier' => PairType::SINGLE_SIDED_OTHER,
                 'name' => 'Single sided Other',
-                'token_combinations' => [
-                    'other',
-                ],
             ],
             [
-                'identifier' => 'stable_to_stable',
+                'identifier' => PairType::STABLE_TO_STABLE,
                 'name' => 'Stablecoin-Stablecoin Pair',
-                'token_combinations' => [
-                    'stable', 'stable',
-                ],
             ],
             [
-                'identifier' => 'stable_to_other',
+                'identifier' => PairType::STABLE_TO_OTHER,
                 'name' => 'Stablecoin-Other Pair',
-                'token_combinations' => [
-                    'stable', 'other',
-                ],
             ],
             [
-                'identifier' => 'single_sided_sol',
+                'identifier' => PairType::SINGLE_SIDED_SOL,
                 'name' => 'Single sided SOL',
-                'token_combinations' => [
-                    'sol',
-                ],
             ],
             [
-                'identifier' => 'sol_to_stable',
+                'identifier' => PairType::SOL_TO_STABLE,
                 'name' => 'SOL-Stablecoin Pair',
-                'token_combinations' => [
-                    'sol', 'stable',
-                ],
             ],
             [
-                'identifier' => 'sol_to_sol',
+                'identifier' => PairType::SOL_TO_SOL,
                 'name' => 'SOL-SOL Pair',
-                'token_combinations' => [
-                    'sol', 'sol',
-                ],
+            ],
+            [
+                'identifier' => PairType::SOL_TO_BTC_ETH,
+                'name' => 'SOL - BTC/ETH Pair',
+            ],
+            [
+                'identifier' => PairType::SOL_TO_OTHER,
+                'name' => 'SOL - Other Pair',
+            ],
+            [
+                'identifier' => PairType::OTHER_TO_OTHER,
+                'name' => 'Other - Other Pair',
+            ],
+            [
+                'identifier' => PairType::SINGLE_SIDED_BTC_ETH,
+                'name' => 'Single sided BTC/ETH',
+            ],
+            [
+                'identifier' => PairType::BTC_ETH_TO_OTHER,
+                'name' => 'BTC/ETH - Other Pair',
+            ],
+            [
+                'identifier' => PairType::BTC_ETH_TO_STABLE,
+                'name' => 'BTC/ETH - Stablecoin Pair',
+            ],
+            [
+                'identifier' => PairType::BTC_ETH_TO_BTC_ETH,
+                'name' => 'BTC/ETH - BTC/ETH Pair',
             ],
         ];
 

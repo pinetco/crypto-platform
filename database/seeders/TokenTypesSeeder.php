@@ -15,11 +15,11 @@ class TokenTypesSeeder extends Seeder
     public function run()
     {
         $data = [
-            'original' => 'Original Coin',
-            'stable' => 'Stable Coin',
-            'liquid_stacked' => 'Liquid Stacked Coin',
-            'bridged' => 'Bridged Coin',
-            'other' => 'Other',
+            TokenType::ORIGINAL => 'Original Coin',
+            TokenType::STABLE => 'Stable Coin',
+            TokenType::LIQUID_STACKED => 'Liquid Stacked Coin',
+            TokenType::BRIDGED => 'Bridged Coin',
+            TokenType::OTHER => 'Other',
         ];
 
         foreach ($data as $identifier => $name) {
