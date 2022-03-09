@@ -65,7 +65,10 @@
                                 @lang('Pair')
                             </th>
                             <th wire:click="sortBy('apy')" scope="col" class="px-6 py-3 cursor-pointer text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                @lang('APR/APY') <x-icons.sort/>
+                                @lang('APY') <x-icons.sort/>
+                            </th>
+                            <th wire:click="sortBy('apr')" scope="col" class="px-6 py-3 cursor-pointer text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                @lang('APR') <x-icons.sort/>
                             </th>
                             <th wire:click="sortBy('tvl')" scope="col" class="px-6 py-3 cursor-pointer text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                 @lang('TVL') <x-icons.sort/>
@@ -82,7 +85,7 @@
                         </tr>
                         </thead>
                         <tbody class="bg-white divide-y divide-gray-200">
-                        @foreach($token_combinations as $token_combination)
+                        @forelse($token_combinations as $token_combination)
                         <tr>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <a href="{{ $token_combination->protocol->url }}" target="_blank" class="text-indigo-600 hover:text-indigo-900 flex items-center">
@@ -106,7 +109,10 @@
                                 {{ $token_combination->apy }}%
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
-                                {{ $token_combination->tvl < 100 ? $token_combination->tvl : number_format($token_combination->tvl) }}
+                                {{ $token_combination->apr }}%
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <span class="text-gray-400 font-bold">$</span> {{ $token_combination->tvl < 100 ? $token_combination->tvl : number_format($token_combination->tvl) }}
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
 
@@ -118,7 +124,13 @@
 
                             </td>
                         </tr>
-                        @endforeach
+                        @empty
+                        <tr>
+                            <td colspan="8" class="px-6 py-4 whitespace-nowrap text-center text-gray-500">
+                                Data not found
+                            </td>
+                        </tr>
+                        @endforelse
                         </tbody>
                     </table>
                 </div>

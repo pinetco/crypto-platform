@@ -13,6 +13,7 @@ class OrcaImporter extends Importer
 
         $protocol = Protocol::firstOrCreate([
             'name' => 'Orca',
+            'icon_path' => 'icons/orca.svg',
             'url' => 'https://www.orca.so/pools',
         ]);
 
@@ -24,11 +25,9 @@ class OrcaImporter extends Importer
             list($tokenOneName, $tokenTwoName) = explode('/', str_replace('[aquafarm]', '', $record['poolId']));
 
             $protocol->importTokenPairs($tokenOneName, $tokenTwoName, [
-                'apy' => round($record['apy']['day'], 5),
+                'apy' => round($record['apy']['month'], 5),
                 'tvl' => round($record['volume']['month'], 5),
             ]);
         }
-
-        $this->setPopularTokens();
     }
 }

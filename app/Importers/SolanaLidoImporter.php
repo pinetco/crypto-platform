@@ -13,6 +13,7 @@ class SolanaLidoImporter extends Importer
 
         $protocol = Protocol::firstOrCreate([
             'name' => 'Solana Lido',
+            'icon_path' => 'icons/lido.svg',
             'url' => 'https://solana.lido.fi/defi',
         ]);
 
@@ -22,10 +23,9 @@ class SolanaLidoImporter extends Importer
 
             $protocol->importTokenPairs($tokenOneName, $tokenTwoName, [
                 'apy' => round($record['totalApy'], 5),
+                'apr' => round($record['totalApr'], 5),
                 'tvl' => round($record['totalValueLockedInUsd'], 5),
             ]);
         }
-
-        $this->setPopularTokens();
     }
 }

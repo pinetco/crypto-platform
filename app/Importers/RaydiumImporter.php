@@ -2,19 +2,14 @@
 
 namespace App\Importers;
 
-use App\Models\Protocol;
 use Http;
+use App\Models\Protocol;
 
 class RaydiumImporter extends Importer
 {
     public function handle()
     {
-        if(app()->environment('local')) {
-            $data = json_decode(\Storage::disk('local')->get('pairs.json'), true);
-        } else {
-            $response = Http::get('https://api.raydium.io/pairs');
-            $data = $response->collect();
-        }
+        $response = Http::get('https://api.raydium.io/pairs');
 
         $protocol = Protocol::firstOrCreate([
             'name' => 'Raydium',
@@ -22,7 +17,7 @@ class RaydiumImporter extends Importer
             'url' => 'https://raydium.io/farms',
         ]);
 
-        foreach ($data as $record) {
+        foreach ($response->collect() as $record) {
             list($tokenOneName, $tokenTwoName) = explode('-', $record['name']);
 
             if ($tokenOneName == 'unknown' || $tokenTwoName == 'unknown') {
@@ -34,7 +29,5 @@ class RaydiumImporter extends Importer
                 'tvl' => round($record['liquidity'], 5),
             ]);
         }
-
-        $this->setPopularTokens();
     }
 }

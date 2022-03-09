@@ -5,7 +5,7 @@ namespace App\Importers;
 use App\Models\Protocol;
 use Http;
 
-class SolfarmImporter extends Importer
+class TulipGardenImporter extends Importer
 {
     public function handle()
     {
@@ -13,6 +13,7 @@ class SolfarmImporter extends Importer
 
         $protocol = Protocol::firstOrCreate([
             'name' => 'Tulip Garden',
+            'icon_path' => 'icons/tulip-garden.svg',
             'url' => 'https://tulip.garden/vaults',
         ]);
 
@@ -28,7 +29,5 @@ class SolfarmImporter extends Importer
                 'tvl' => round($record['liquidity'], 5),
             ]);
         }
-
-        $this->setPopularTokens();
     }
 }

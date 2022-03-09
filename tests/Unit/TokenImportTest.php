@@ -8,7 +8,7 @@ use Tests\TestCase;
 use App\Models\Token;
 use App\Models\TokenCombination;
 use App\Importers\RaydiumImporter;
-use App\Importers\SolfarmImporter;
+use App\Importers\TulipGardenImporter;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class TokenImportTest extends TestCase
@@ -27,7 +27,7 @@ class TokenImportTest extends TestCase
     /** @test */
     public function it_imports_tokens_and_combinations_from_solfarm()
     {
-        SolfarmImporter::make()->handle();
+        TulipGardenImporter::make()->handle();
 
         $this->assertTrue(Token::count() > 0);
         $this->assertTrue(TokenCombination::count() > 0);

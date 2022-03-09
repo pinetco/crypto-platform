@@ -18,10 +18,10 @@ class Protocol extends Model
         $toToken = Token::getToken($tokenTwoName);
 
         $properties['tvl'] = TransformTVL::make($properties['tvl'])->get();
+        $properties['pair_type_id'] = PairType::identify($fromToken, $toToken)->id;
 
-        $tokenCombination = TokenCombination::firstOrCreate([
+        $tokenCombination = TokenCombination::updateOrCreate([
             'protocol_id' => $this->id,
-            'pair_type_id' => PairType::identify($fromToken, $toToken)->id,
             'from_token_id' => $fromToken->id,
             'to_token_id' => $toToken->id,
         ], $properties);
