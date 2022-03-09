@@ -2,7 +2,9 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\PairType;
 use App\Models\TokenCombination;
+use App\Models\TokenType;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -11,8 +13,8 @@ class Tokens extends Component
     use WithPagination, WithSorting;
 
     public $search;
-    public $token_type;
-    public $pair_type;
+    public $token_type_id;
+    public $pair_type_id;
     public $protocol_id;
 
     public $token_ids = [];
@@ -21,8 +23,8 @@ class Tokens extends Component
 
     protected $queryString = [
         'search' => ['except' => ''],
-        'token_type' => ['except' => ''],
-        'pair_type' => ['except' => ''],
+        'token_type_id' => ['except' => ''],
+        'pair_type_id' => ['except' => ''],
         'protocol_id' => ['except' => ''],
         'token_ids' => ['except' => []],
     ];
@@ -48,13 +50,16 @@ class Tokens extends Component
     {
         return TokenCombination::with('protocol:id,name,icon_path,url', 'pair_type:id,name', 'from_token:id,name', 'to_token:id,name')
             ->when($this->search, function ($q) {
-                $q->where(function ($q) {
-                    $q->whereHas('from_token', function ($q) {
-                        $q->where('name', 'like', "%{$this->search}%");
-                    })->orWhereHas('to_token', function ($q) {
-                        $q->where('name', 'like', "%{$this->search}%");
-                    });
-                });
+                $q->search($this->search);
+            })
+            ->when($this->token_type_id, function ($q) {
+                $q->whereHasTokens('token_type_id', $this->token_type_id);
+            })
+            ->when($this->pair_type_id, function ($q) {
+                $q->where('pair_type_id', $this->pair_type_id);
+            })
+            ->when($this->protocol_id, function ($q) {
+                $q->where('protocol_id', $this->protocol_id);
             })
             ->when($this->token_ids, function ($q) {
                 $q->where(function ($q) {

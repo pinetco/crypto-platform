@@ -30,4 +30,26 @@ class TokenCombination extends Model
     {
         return $this->belongsTo(Token::class);
     }
+
+    public function scopeSearch($query, $keyword)
+    {
+        return $query->where(function ($q) use ($keyword) {
+            $q->whereHas('from_token', function ($q) use ($keyword) {
+                $q->where('name', 'like', "%{$keyword}%");
+            })->orWhereHas('to_token', function ($q) use ($keyword) {
+                $q->where('name', 'like', "%{$keyword}%");
+            });
+        });
+    }
+
+    public function scopeWhereHasTokens($query, $key, $value)
+    {
+        return $query->where(function ($q) use ($key, $value) {
+            $q->whereHas('from_token', function ($q) use ($key, $value) {
+                $q->where($key, $value);
+            })->orWhereHas('to_token', function ($q) use ($key, $value) {
+                $q->where($key, $value);
+            });
+        });
+    }
 }
