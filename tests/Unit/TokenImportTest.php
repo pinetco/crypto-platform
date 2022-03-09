@@ -2,13 +2,13 @@
 
 namespace Tests\Unit;
 
-use App\Importers\OrcaImporter;
-use App\Importers\SolanaLidoImporter;
+use App\Jobs\Importers\Orca;
+use App\Jobs\Importers\Raydium;
+use App\Jobs\Importers\SolanaLido;
+use App\Jobs\Importers\TulipGarden;
 use Tests\TestCase;
 use App\Models\Token;
 use App\Models\TokenCombination;
-use App\Importers\RaydiumImporter;
-use App\Importers\TulipGardenImporter;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class TokenImportTest extends TestCase
@@ -18,7 +18,7 @@ class TokenImportTest extends TestCase
     /** @test */
     public function it_imports_tokens_and_combinations_from_raydium()
     {
-        RaydiumImporter::make()->handle();
+        Raydium::dispatch();
 
         $this->assertTrue(Token::count() > 0);
         $this->assertTrue(TokenCombination::count() > 0);
@@ -27,7 +27,7 @@ class TokenImportTest extends TestCase
     /** @test */
     public function it_imports_tokens_and_combinations_from_solfarm()
     {
-        TulipGardenImporter::make()->handle();
+        TulipGarden::dispatch();
 
         $this->assertTrue(Token::count() > 0);
         $this->assertTrue(TokenCombination::count() > 0);
@@ -36,7 +36,7 @@ class TokenImportTest extends TestCase
     /** @test */
     public function it_imports_tokens_and_combinations_from_orca()
     {
-        OrcaImporter::make()->handle();
+        Orca::dispatch();
 
         $this->assertTrue(Token::count() > 0);
         $this->assertTrue(TokenCombination::count() > 0);
@@ -45,7 +45,7 @@ class TokenImportTest extends TestCase
     /** @test */
     public function it_imports_tokens_and_combinations_from_solana_lido()
     {
-        SolanaLidoImporter::make()->handle();
+        SolanaLido::dispatch();
 
         $this->assertTrue(Token::count() > 0);
         $this->assertTrue(TokenCombination::count() > 0);

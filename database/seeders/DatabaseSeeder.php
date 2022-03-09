@@ -2,10 +2,10 @@
 
 namespace Database\Seeders;
 
-use App\Importers\OrcaImporter;
-use App\Importers\RaydiumImporter;
-use App\Importers\SolanaLidoImporter;
-use App\Importers\TulipGardenImporter;
+use App\Jobs\Importers\Orca;
+use App\Jobs\Importers\Raydium;
+use App\Jobs\Importers\SolanaLido;
+use App\Jobs\Importers\TulipGarden;
 use App\Jobs\SetPopularTokens;
 use Illuminate\Database\Seeder;
 
@@ -23,10 +23,11 @@ class DatabaseSeeder extends Seeder
         $this->call(TokenTypesSeeder::class);
         $this->call(PairTypesSeeder::class);
 
-        RaydiumImporter::make()->handle();
-        TulipGardenImporter::make()->handle();
-        OrcaImporter::make()->handle();
-//        SolanaLidoImporter::make()->handle(); // disabled because it has data from multiple protocols
+        // TODO: remove later
+        Raydium::dispatch();
+        TulipGarden::dispatch();
+        Orca::dispatch();
+        // SolanaLido::dispatch(); // disabled because it has data from multiple protocols
 
         SetPopularTokens::dispatch();
     }
