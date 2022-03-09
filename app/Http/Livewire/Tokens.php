@@ -11,6 +11,9 @@ class Tokens extends Component
     use WithPagination, WithSorting;
 
     public $search;
+    public $token_type;
+    public $pair_type;
+    public $protocol_id;
 
     public $token_ids = [];
 
@@ -18,6 +21,9 @@ class Tokens extends Component
 
     protected $queryString = [
         'search' => ['except' => ''],
+        'token_type' => ['except' => ''],
+        'pair_type' => ['except' => ''],
+        'protocol_id' => ['except' => ''],
         'token_ids' => ['except' => []],
     ];
 
@@ -40,7 +46,7 @@ class Tokens extends Component
 
     protected function getTokenCombinations()
     {
-        return TokenCombination::with('farm:id,name,url', 'from_token:id,name', 'to_token:id,name')
+        return TokenCombination::with('protocol:id,name,url', 'pair_type:id,name', 'from_token:id,name', 'to_token:id,name')
             ->when($this->search, function ($q) {
                 $q->where(function ($q) {
                     $q->whereHas('from_token', function ($q) {

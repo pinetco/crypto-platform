@@ -20,4 +20,13 @@ class Token extends Model
     {
         return $query->where('is_popular', true);
     }
+
+    public static function getToken($tokenName)
+    {
+        return Token::firstOrCreate([
+            'name' => $tokenName
+        ], [
+            'token_type_id' => TokenType::identify($tokenName)->id,
+        ]);
+    }
 }

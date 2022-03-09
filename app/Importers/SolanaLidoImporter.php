@@ -2,7 +2,7 @@
 
 namespace App\Importers;
 
-use App\Models\Farm;
+use App\Models\Protocol;
 use Http;
 
 class SolanaLidoImporter extends Importer
@@ -11,7 +11,7 @@ class SolanaLidoImporter extends Importer
     {
         $response = Http::get('https://solana.lido.fi/api/defi');
 
-        $farm = Farm::firstOrCreate([
+        $protocol = Protocol::firstOrCreate([
             'name' => 'Solana Lido',
             'url' => 'https://solana.lido.fi/defi',
         ]);
@@ -20,9 +20,9 @@ class SolanaLidoImporter extends Importer
             $tokenOneName = $record['PoolLeftToken'];
             $tokenTwoName = $record['PoolRightToken'];
 
-            $farm->importTokens($tokenOneName, $tokenTwoName, [
+            $protocol->importTokenPairs($tokenOneName, $tokenTwoName, [
                 'apy' => round($record['totalApy'], 5),
-                'liquidity' => round($record['totalValueLockedInUsd'], 5),
+                'tvl' => round($record['totalValueLockedInUsd'], 5),
             ]);
         }
 

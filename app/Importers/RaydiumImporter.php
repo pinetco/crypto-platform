@@ -2,30 +2,35 @@
 
 namespace App\Importers;
 
-use App\Models\Farm;
+use App\Models\Protocol;
 use Http;
 
 class RaydiumImporter extends Importer
 {
     public function handle()
     {
-        $response = Http::get('https://api.raydium.io/pairs');
+        if(app()->environment('local')) {
+            $data = json_decode(\Storage::disk('local')->get('pairs.json'), true);
+        } else {
+            $response = Http::get('https://api.raydium.io/pairs');
+            $data = $response->collect();
+        }
 
-        $farm = Farm::firstOrCreate([
+        $protocol = Protocol::firstOrCreate([
             'name' => 'Raydium',
             'url' => 'https://raydium.io/farms',
         ]);
 
-        foreach ($response->collect() as $record) {
+        foreach ($data as $record) {
             list($tokenOneName, $tokenTwoName) = explode('-', $record['name']);
 
             if ($tokenOneName == 'unknown' || $tokenTwoName == 'unknown') {
                 continue;
             }
 
-            $farm->importTokens($tokenOneName, $tokenTwoName, [
+            $protocol->importTokenPairs($tokenOneName, $tokenTwoName, [
                 'apy' => round($record['apy'], 5),
-                'liquidity' => round($record['liquidity'], 5),
+                'tvl' => round($record['liquidity'], 5),
             ]);
         }
 

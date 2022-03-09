@@ -15,11 +15,13 @@ class CreateTokenCombinationsTable extends Migration
     {
         Schema::create('token_combinations', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('farm_id');
+            $table->foreignId('protocol_id');
+            $table->foreignId('pair_type_id');
             $table->foreignId('from_token_id');
             $table->foreignId('to_token_id');
             $table->double('apy')->default(0);
-            $table->double('liquidity')->default(0);
+            $table->double('apr')->default(0);
+            $table->double('tvl')->default(0);
             $table->timestamps();
         });
     }

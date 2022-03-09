@@ -2,7 +2,7 @@
 
 namespace App\Importers;
 
-use App\Models\Farm;
+use App\Models\Protocol;
 use Http;
 
 class OrcaImporter extends Importer
@@ -11,7 +11,7 @@ class OrcaImporter extends Importer
     {
         $response = Http::get('https://api.orca.so/allPools');
 
-        $farm = Farm::firstOrCreate([
+        $protocol = Protocol::firstOrCreate([
             'name' => 'Orca',
             'url' => 'https://www.orca.so/pools',
         ]);
@@ -23,9 +23,9 @@ class OrcaImporter extends Importer
 
             list($tokenOneName, $tokenTwoName) = explode('/', str_replace('[aquafarm]', '', $record['poolId']));
 
-            $farm->importTokens($tokenOneName, $tokenTwoName, [
+            $protocol->importTokenPairs($tokenOneName, $tokenTwoName, [
                 'apy' => round($record['apy']['day'], 5),
-                'liquidity' => round($record['volume']['month'], 5),
+                'tvl' => round($record['volume']['month'], 5),
             ]);
         }
 

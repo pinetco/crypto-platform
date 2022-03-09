@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTokensTable extends Migration
+class CreateTokenTypesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,10 @@ class CreateTokensTable extends Migration
      */
     public function up()
     {
-        Schema::create('tokens', function (Blueprint $table) {
+        Schema::create('token_types', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('token_type_id');
+            $table->string('identifier')->unique();
             $table->string('name');
-            $table->boolean('is_popular')->default(false);
-            $table->timestamps();
         });
     }
 
@@ -29,6 +27,6 @@ class CreateTokensTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tokens');
+        Schema::dropIfExists('token_types');
     }
 }

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateFarmsTable extends Migration
+class CreatePairTypesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,10 @@ class CreateFarmsTable extends Migration
      */
     public function up()
     {
-        Schema::create('farms', function (Blueprint $table) {
+        Schema::create('pair_types', function (Blueprint $table) {
             $table->id();
+            $table->string('identifier')->unique();
             $table->string('name');
-            $table->string('url')->nullable();
-            $table->timestamps();
         });
     }
 
@@ -28,6 +27,6 @@ class CreateFarmsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('farms');
+        Schema::dropIfExists('pair_types');
     }
 }
