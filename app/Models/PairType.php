@@ -25,7 +25,8 @@ class PairType extends Model
         SINGLE_SIDED_BTC_ETH = 'single_sided_btc_eth',
         BTC_ETH_TO_OTHER = 'btc_eth_to_other',
         BTC_ETH_TO_STABLE = 'btc_eth_to_stable',
-        BTC_ETH_TO_BTC_ETH = 'btc_eth_to_btc_eth';
+        BTC_ETH_TO_BTC_ETH = 'btc_eth_to_btc_eth',
+        UNDEFINED = 'undefined';
 
     public static function identify(Token $tokenOne, Token $tokenTwo)
     {

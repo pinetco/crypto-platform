@@ -71,6 +71,10 @@ class PairTypesSeeder extends Seeder
                 'identifier' => PairType::BTC_ETH_TO_BTC_ETH,
                 'name' => 'BTC/ETH - BTC/ETH Pair',
             ],
+            [
+                'identifier' => PairType::UNDEFINED,
+                'name' => '-',
+            ],
         ];
 
         foreach ($data as $record) {

@@ -52,6 +52,24 @@ class PairTypeIdentifier
             return PairType::OTHER_TO_OTHER;
         }
 
+        if (Str::contains($tokenOneName, 'sol')
+            && Str::contains($tokenTwoName, 'sol')
+        ) {
+            return PairType::SOL_TO_SOL;
+        }
+
+        if ($this->isAnyTokenName('btc')
+            && $this->isAnyTokenName('eth')
+        ) {
+            return PairType::BTC_ETH_TO_BTC_ETH;
+        }
+
+        if ($this->isAnyTokenName('sol')
+            && $this->isBtcOrEth()
+        ) {
+            return PairType::SOL_TO_BTC_ETH;
+        }
+
         if ($this->isAnyTokensOfType(TokenType::STABLE)
             && $this->isAnyTokensOfType(TokenType::OTHER)
         ) {
@@ -70,18 +88,6 @@ class PairTypeIdentifier
             return PairType::SOL_TO_OTHER;
         }
 
-        if (Str::contains($tokenOneName, 'sol')
-            && Str::contains($tokenTwoName, 'sol')
-        ) {
-            return PairType::SOL_TO_SOL;
-        }
-
-        if ($this->isAnyTokenName('sol')
-            && $this->isBtcOrEth()
-        ) {
-            return PairType::SOL_TO_BTC_ETH;
-        }
-
         if ($this->isAnyTokensOfType(TokenType::STABLE)
             && $this->isBtcOrEth()
         ) {
@@ -94,18 +100,12 @@ class PairTypeIdentifier
             return PairType::BTC_ETH_TO_OTHER;
         }
 
-        if ($this->isAnyTokenName('btc')
-            && $this->isAnyTokenName('eth')
-        ) {
-            return PairType::BTC_ETH_TO_BTC_ETH;
-        }
-
         // SINGLE_SIDED_STABLE
         // SINGLE_SIDED_OTHER
         // SINGLE_SIDED_SOL
         // SINGLE_SIDED_BTC_ETH
 
-        return PairType::SINGLE_SIDED_STABLE; // TODO: for time being
+        return PairType::UNDEFINED; // TODO: for time being
     }
 
     protected function isBtcOrEth()

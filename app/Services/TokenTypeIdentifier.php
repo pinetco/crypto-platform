@@ -22,7 +22,7 @@ class TokenTypeIdentifier
     {
         $tokenName = $this->tokenName;
 
-        if (Arr::has(['USD', 'DAI', 'MIM', 'FRAX', 'UST', 'MAI', 'CASH'], $tokenName)) {
+        if (Str::contains($tokenName, ['USD', 'DAI', 'MIM', 'FRAX', 'UST', 'MAI', 'CASH'])) {
             return TokenType::STABLE;
         }
 
