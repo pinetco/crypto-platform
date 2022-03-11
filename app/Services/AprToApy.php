@@ -20,8 +20,8 @@ class AprToApy
 
     public function get()
     {
-        $periodicRate = pow((1 + $this->apr / 100), (1 / $this->frequency)) - 1;
+        $apy = pow((1 + (($this->apr / 100) / $this->frequency)), $this->frequency) - 1;
 
-        return round($periodicRate * $this->frequency * 100, 5);
+        return round($apy * 100, 5);
     }
 }

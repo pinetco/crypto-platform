@@ -23,14 +23,14 @@ class Protocol extends Model
         $properties['pair_type_id'] = PairType::identify($fromToken, $toToken)->id;
 
         // calculate apr if not provided
-        if (!data_get($properties, 'apr')) {
+        if (!array_key_exists('apr', $properties)) {
             $properties['apr'] = ApyToApr::make($properties['apy'])->get();
         }
 
         // calculate apy if not provided
-//        if (!data_get($properties, 'apy')) {
-//            $properties['apy'] = AprToApy::make($properties['apr'])->get();
-//        }
+        if (!array_key_exists('apy', $properties)) {
+            $properties['apy'] = AprToApy::make($properties['apr'])->get();
+        }
 
         $tokenCombination = TokenCombination::updateOrCreate([
             'protocol_id' => $this->id,
