@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Services\AprToApy;
 use App\Services\ApyToApr;
 use App\Services\TransformTVL;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -25,6 +26,11 @@ class Protocol extends Model
         if (!data_get($properties, 'apr')) {
             $properties['apr'] = ApyToApr::make($properties['apy'])->get();
         }
+
+        // calculate apy if not provided
+//        if (!data_get($properties, 'apy')) {
+//            $properties['apy'] = AprToApy::make($properties['apr'])->get();
+//        }
 
         $tokenCombination = TokenCombination::updateOrCreate([
             'protocol_id' => $this->id,

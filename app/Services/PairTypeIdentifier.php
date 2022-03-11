@@ -48,7 +48,7 @@ class PairTypeIdentifier
             return PairType::STABLE_TO_STABLE;
         }
 
-        if ($tokenOneType === TokenType::OTHER && $tokenTwoType === TokenType::OTHER) {
+        if ($this->isOtherToken($this->tokenOne) && $this->isOtherToken($this->tokenTwo)) {
             return PairType::OTHER_TO_OTHER;
         }
 
@@ -73,7 +73,7 @@ class PairTypeIdentifier
         }
 
         if ($this->isAnyTokensOfType(TokenType::STABLE)
-            && $this->isAnyTokensOfType(TokenType::OTHER)
+            && ($this->isOtherToken($this->tokenOne) || $this->isOtherToken($this->tokenTwo))
         ) {
             return PairType::STABLE_TO_OTHER;
         }
@@ -85,7 +85,7 @@ class PairTypeIdentifier
         }
 
         if ($this->isAnyTokenNameEndsWith('SOL')
-            && $this->isAnyTokensOfType(TokenType::OTHER)
+            && ($this->isOtherToken($this->tokenOne) || $this->isOtherToken($this->tokenTwo))
         ) {
             return PairType::SOL_TO_OTHER;
         }
@@ -96,8 +96,8 @@ class PairTypeIdentifier
             return PairType::BTC_ETH_TO_STABLE;
         }
 
-        if ($this->isAnyTokensOfType(TokenType::OTHER)
-            && $this->isBtcOrEth()
+        if ($this->isBtcOrEth()
+            && ($this->isOtherToken($this->tokenOne) || $this->isOtherToken($this->tokenTwo))
         ) {
             return PairType::BTC_ETH_TO_OTHER;
         }
@@ -107,7 +107,7 @@ class PairTypeIdentifier
         // SINGLE_SIDED_SOL
         // SINGLE_SIDED_BTC_ETH
 
-        return PairType::UNDEFINED; // TODO: for time being
+        return PairType::SINGLE_SIDED_OTHER; // TODO: for time being
     }
 
     protected function isBtcOrEth()
@@ -120,6 +120,13 @@ class PairTypeIdentifier
     {
         return $this->tokenOneType === $type
             || $this->tokenTwoType === $type;
+    }
+
+    protected function isOtherToken(Token $token)
+    {
+        return $token->token_type->identifier !== TokenType::STABLE
+            && !Str::contains($token->name, ['BTC', 'ETH'])
+            && !Str::endsWith($token->name, 'SOL');
     }
 
     protected function isAnyTokenName($name)
