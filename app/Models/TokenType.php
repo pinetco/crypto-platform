@@ -18,6 +18,11 @@ class TokenType extends Model
         BRIDGED = 'bridged',
         OTHER = 'other';
 
+    public function tokens()
+    {
+        return $this->hasMany(Token::class);
+    }
+
     public static function identify($tokenName)
     {
         return self::where('identifier', TokenTypeIdentifier::make($tokenName)->get())->first();

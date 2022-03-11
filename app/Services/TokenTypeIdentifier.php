@@ -22,20 +22,20 @@ class TokenTypeIdentifier
     {
         $tokenName = $this->tokenName;
 
-        if (Str::contains($tokenName, ['USD', 'DAI', 'MIM', 'FRAX', 'UST', 'MAI', 'CASH'])) {
-            return TokenType::STABLE;
-        }
-
-        if (ctype_upper($tokenName)) {
-            return TokenType::ORIGINAL;
-        }
-
         if (Str::startsWith($tokenName, ['aa', 'ab', 'ac', 'ae', 'af', 'ag', 'ah', 'ap', 'at', 'so', 'sol', 'we', 'wb', 'wib', 'wt', 'wh'])) {
             return TokenType::BRIDGED;
         }
 
         if (Str::startsWith($tokenName, ['a', 'm', 'e', 'c', 'p', 'prt', 'ren', 's', 'scn', 'st', 'w', 'wst', 'x', 'y'])) {
             return TokenType::LIQUID_STACKED;
+        }
+
+        if (Str::contains($tokenName, ['USD', 'DAI', 'MIM', 'FRAX', 'UST', 'MAI', 'CASH']) && ctype_upper($tokenName)) {
+            return TokenType::STABLE;
+        }
+
+        if (ctype_upper($tokenName)) {
+            return TokenType::ORIGINAL;
         }
 
         return TokenType::OTHER;

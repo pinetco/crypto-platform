@@ -29,8 +29,8 @@ class PairTypeIdentifier
         $this->tokenOne = $tokenOne->load('token_type');
         $this->tokenTwo = $tokenTwo->load('token_type');
 
-        $this->tokenOneName = strtolower($tokenOne->name);
-        $this->tokenTwoName = strtolower($tokenTwo->name);
+        $this->tokenOneName = $tokenOne->name;
+        $this->tokenTwoName = $tokenTwo->name;
 
         $this->tokenOneType = $tokenOne->token_type->identifier;
         $this->tokenTwoType = $tokenTwo->token_type->identifier;
@@ -38,11 +38,11 @@ class PairTypeIdentifier
 
     public function get()
     {
-        $tokenOneName = strtolower($this->tokenOne->name);
-        $tokenTwoName = strtolower($this->tokenTwo->name);
+        $tokenOneName = $this->tokenOneName;
+        $tokenTwoName = $this->tokenTwoName;
 
-        $tokenOneType = $this->tokenOne->token_type->identifier;
-        $tokenTwoType = $this->tokenTwo->token_type->identifier;
+        $tokenOneType = $this->tokenOneType;
+        $tokenTwoType = $this->tokenTwoType;
 
         if ($tokenOneType === TokenType::STABLE && $tokenTwoType === TokenType::STABLE) {
             return PairType::STABLE_TO_STABLE;
@@ -52,19 +52,21 @@ class PairTypeIdentifier
             return PairType::OTHER_TO_OTHER;
         }
 
-        if (Str::contains($tokenOneName, 'sol')
-            && Str::contains($tokenTwoName, 'sol')
+        if (Str::endsWith($tokenOneName, 'SOL')
+            && Str::endsWith($tokenTwoName, 'SOL')
+            && !(ctype_upper($tokenOneName) && ctype_upper($tokenTwoName))
+            && !$this->isAnyTokensOfType(TokenType::OTHER)
         ) {
             return PairType::SOL_TO_SOL;
         }
 
-        if ($this->isAnyTokenName('btc')
-            && $this->isAnyTokenName('eth')
+        if ($this->isAnyTokenName('BTC')
+            && $this->isAnyTokenName('ETH')
         ) {
             return PairType::BTC_ETH_TO_BTC_ETH;
         }
 
-        if ($this->isAnyTokenName('sol')
+        if ($this->isAnyTokenNameEndsWith('SOL')
             && $this->isBtcOrEth()
         ) {
             return PairType::SOL_TO_BTC_ETH;
@@ -76,13 +78,13 @@ class PairTypeIdentifier
             return PairType::STABLE_TO_OTHER;
         }
 
-        if ($this->isAnyTokenName('sol')
+        if ($this->isAnyTokenNameEndsWith('SOL')
             && $this->isAnyTokensOfType(TokenType::STABLE)
         ) {
             return PairType::SOL_TO_STABLE;
         }
 
-        if ($this->isAnyTokenName('sol')
+        if ($this->isAnyTokenNameEndsWith('SOL')
             && $this->isAnyTokensOfType(TokenType::OTHER)
         ) {
             return PairType::SOL_TO_OTHER;
@@ -110,8 +112,8 @@ class PairTypeIdentifier
 
     protected function isBtcOrEth()
     {
-        return $this->isAnyTokenName('btc')
-            || $this->isAnyTokenName('eth');
+        return $this->isAnyTokenName('BTC')
+            || $this->isAnyTokenName('ETH');
     }
 
     protected function isAnyTokensOfType($type)
@@ -122,7 +124,13 @@ class PairTypeIdentifier
 
     protected function isAnyTokenName($name)
     {
-        return Str::contains($this->tokenOneName, $name)
-            || Str::contains($this->tokenTwoName, $name);
+        return $this->tokenOneName === $name
+            || $this->tokenTwoName === $name;
+    }
+
+    protected function isAnyTokenNameEndsWith($name)
+    {
+        return Str::endsWith($this->tokenOneName, $name)
+            || Str::endsWith($this->tokenTwoName, $name);
     }
 }

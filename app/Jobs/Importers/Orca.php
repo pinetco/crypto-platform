@@ -36,7 +36,7 @@ class Orca extends Importer implements ShouldQueue
             return;
         }
 
-        list($tokenOneName, $tokenTwoName) = explode('/', str_replace('[aquafarm]', '', $record['poolId']));
+        list($tokenOneName, $tokenTwoName) = explode('/', str_replace(['[aquafarm]', '[stable]'], '', $record['poolId']));
 
         $this->protocol->importTokenPairs($tokenOneName, $tokenTwoName, [
             'apy' => round($record['apy']['month'], 5),
