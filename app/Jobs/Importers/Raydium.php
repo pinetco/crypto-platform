@@ -27,7 +27,7 @@ class Raydium extends Importer implements ShouldQueue
 
     public function getData(): Collection
     {
-        return Http::get('https://api.raydium.io/pairs')->collect();
+        return Http::get('https://api.raydium.io/v2/main/pairs')->collect();
     }
 
     public function import($record)
@@ -39,7 +39,7 @@ class Raydium extends Importer implements ShouldQueue
         }
 
         $this->protocol->importTokenPairs($tokenOneName, $tokenTwoName, [
-            'apy' => round($record['apy'], 5),
+            'apr' => round($record['apr30d'], 5),
             'tvl' => round($record['liquidity'], 5),
         ]);
     }
