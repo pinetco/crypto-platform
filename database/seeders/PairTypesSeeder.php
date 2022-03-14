@@ -25,11 +25,11 @@ class PairTypesSeeder extends Seeder
             ],
             [
                 'identifier' => PairType::STABLE_TO_STABLE,
-                'name' => 'Stablecoin-Stablecoin Pair',
+                'name' => 'Stablecoin - Stablecoin Pair',
             ],
             [
                 'identifier' => PairType::STABLE_TO_OTHER,
-                'name' => 'Stablecoin-Other Pair',
+                'name' => 'Stablecoin - Other Pair',
             ],
             [
                 'identifier' => PairType::SINGLE_SIDED_SOL,
@@ -37,11 +37,11 @@ class PairTypesSeeder extends Seeder
             ],
             [
                 'identifier' => PairType::SOL_TO_STABLE,
-                'name' => 'SOL-Stablecoin Pair',
+                'name' => 'SOL - Stablecoin Pair',
             ],
             [
                 'identifier' => PairType::SOL_TO_SOL,
-                'name' => 'SOL-SOL Pair',
+                'name' => 'SOL - SOL Pair',
             ],
             [
                 'identifier' => PairType::SOL_TO_BTC_ETH,
@@ -70,11 +70,7 @@ class PairTypesSeeder extends Seeder
             [
                 'identifier' => PairType::BTC_ETH_TO_BTC_ETH,
                 'name' => 'BTC/ETH - BTC/ETH Pair',
-            ],
-            [
-                'identifier' => PairType::UNDEFINED,
-                'name' => '-',
-            ],
+            ]
         ];
 
         foreach ($data as $record) {

@@ -101,7 +101,7 @@
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <div class="flex items-center">
                                     <div class="text-sm font-medium text-gray-900">
-                                        {{ $token_combination->from_token->name }}-{{ $token_combination->to_token->name }}
+                                        {{ $token_combination->from_token->name }} - {{ $token_combination->to_token->name }}
                                     </div>
                                 </div>
                             </td>
