@@ -106,10 +106,10 @@
                                 </div>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
-                                {{ $token_combination->apy }}%
+                                {{ round($token_combination->apy, 1) }}%
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
-                                {{ $token_combination->apr }}%
+                                {{ round($token_combination->apr, 1) }}%
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <span class="text-gray-400 font-bold">$</span> {{ $token_combination->tvl < 100 ? $token_combination->tvl : number_format($token_combination->tvl) }}
