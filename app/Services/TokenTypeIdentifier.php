@@ -30,7 +30,10 @@ class TokenTypeIdentifier
             return TokenType::LIQUID_STACKED;
         }
 
-        if (Str::contains($tokenName, ['USD', 'DAI', 'MIM', 'FRAX', 'UST', 'MAI', 'CASH']) && ctype_upper($tokenName)) {
+        if (Str::contains($tokenName, ['USD', 'DAI', 'MIM', 'FRAX', 'UST', 'MAI', 'CASH'])
+            && !Str::contains($tokenName, ['MIMO', 'FUDAI', 'LUST', 'ELONCASH'])
+            && ctype_upper($tokenName)
+        ) {
             return TokenType::STABLE;
         }
 
