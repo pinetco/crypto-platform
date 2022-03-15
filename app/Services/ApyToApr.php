@@ -11,7 +11,7 @@ class ApyToApr
     protected $apy;
 
     // frequency in months
-    protected $frequency = 12;
+    protected $frequency = 365;
 
     public function __construct($apy)
     {
@@ -22,6 +22,6 @@ class ApyToApr
     {
         $periodicRate = pow((1 + $this->apy / 100), (1 / $this->frequency)) - 1;
 
-        return round($periodicRate * $this->frequency * 100, 5);
+        return round($periodicRate * $this->frequency * 100, 1);
     }
 }

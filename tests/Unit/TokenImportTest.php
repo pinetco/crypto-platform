@@ -6,6 +6,8 @@ use App\Jobs\Importers\Orca;
 use App\Jobs\Importers\Raydium;
 use App\Jobs\Importers\SolanaLido;
 use App\Jobs\Importers\TulipGarden;
+use Database\Seeders\PairTypesSeeder;
+use Database\Seeders\TokenTypesSeeder;
 use Tests\TestCase;
 use App\Models\Token;
 use App\Models\TokenCombination;
@@ -14,6 +16,14 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 class TokenImportTest extends TestCase
 {
     use RefreshDatabase;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+
+        $this->seed(TokenTypesSeeder::class);
+        $this->seed(PairTypesSeeder::class);
+    }
 
     /** @test */
     public function it_imports_tokens_and_combinations_from_raydium()
