@@ -52,8 +52,8 @@ class PairTypeIdentifier
             return PairType::OTHER_TO_OTHER;
         }
 
-        if (Str::endsWith($tokenOneName, 'SOL')
-            && Str::endsWith($tokenTwoName, 'SOL')
+        if ($this->isSol($this->tokenOne)
+            && $this->isSol($this->tokenTwo)
             && !(ctype_upper($tokenOneName) && ctype_upper($tokenTwoName))
             && !$this->isAnyTokensOfType(TokenType::OTHER)
         ) {
@@ -66,7 +66,7 @@ class PairTypeIdentifier
             return PairType::BTC_ETH_TO_BTC_ETH;
         }
 
-        if ($this->isAnyTokenNameEndsWith('SOL')
+        if (($this->isSol($this->tokenOne) || $this->isSol($this->tokenTwo))
             && $this->isBtcOrEth()
         ) {
             return PairType::SOL_TO_BTC_ETH;
@@ -78,13 +78,13 @@ class PairTypeIdentifier
             return PairType::STABLE_TO_OTHER;
         }
 
-        if ($this->isAnyTokenNameEndsWith('SOL')
+        if (($this->isSol($this->tokenOne) || $this->isSol($this->tokenTwo))
             && $this->isAnyTokensOfType(TokenType::STABLE)
         ) {
             return PairType::SOL_TO_STABLE;
         }
 
-        if ($this->isAnyTokenNameEndsWith('SOL')
+        if (($this->isSol($this->tokenOne) || $this->isSol($this->tokenTwo))
             && ($this->isOtherToken($this->tokenOne) || $this->isOtherToken($this->tokenTwo))
         ) {
             return PairType::SOL_TO_OTHER;
@@ -126,7 +126,7 @@ class PairTypeIdentifier
     {
         return $token->token_type->identifier !== TokenType::STABLE
             && !Str::contains($token->name, ['BTC', 'ETH'])
-            && !Str::endsWith($token->name, 'SOL');
+            && !$this->isSol($token);
     }
 
     protected function isAnyTokenName($name)
@@ -139,5 +139,12 @@ class PairTypeIdentifier
     {
         return Str::endsWith($this->tokenOneName, $name)
             || Str::endsWith($this->tokenTwoName, $name);
+    }
+
+    protected function isSol(Token $token)
+    {
+        return Str::endsWith($token->name, 'SOL')
+            && $token->token_type->identifier === TokenType::ORIGINAL
+            && !Str::contains($token->name, ['1SOL', 'METASOL', 'BABYFLOKISOL', 'ISOL', 'GMSOL', 'PSOL']);
     }
 }

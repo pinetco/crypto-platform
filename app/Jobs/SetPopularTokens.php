@@ -31,11 +31,8 @@ class SetPopularTokens implements ShouldQueue
      */
     public function handle()
     {
-        Token::has('combinations', '>', 3)
-            ->inRandomOrder()
-            ->take(10)
-            ->get()
-            ->each
-            ->update(['is_popular' => true]);
+        Token::whereIn('name', [
+            'BTC', 'ETH', 'whETH', 'SOL', 'stSOL', 'mSOL', 'USDC', 'USDT', 'wUST', 'ORCA', 'SRM', 'RAY'
+        ])->update(['is_popular' => true]);
     }
 }

@@ -37,7 +37,7 @@ class TokenTypeIdentifier
             return TokenType::STABLE;
         }
 
-        if (ctype_upper($tokenName)) {
+        if (preg_match('/^[A-Z0-9]+$/', $tokenName)) {
             return TokenType::ORIGINAL;
         }
 

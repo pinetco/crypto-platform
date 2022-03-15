@@ -17,7 +17,7 @@ class TokenTypesSeeder extends Seeder
         $data = [
             TokenType::ORIGINAL => 'Original Coin',
             TokenType::STABLE => 'Stable Coin',
-            TokenType::LIQUID_STACKED => 'Liquid Stacked Coin',
+            TokenType::LIQUID_STACKED => 'Liquid Staked Coin',
             TokenType::BRIDGED => 'Bridged Coin',
             TokenType::OTHER => 'Other',
         ];
