@@ -32,14 +32,10 @@ class Protocol extends Model
             $properties['apy'] = AprToApy::make($properties['apr'])->get();
         }
 
-        try {
-            $tokenCombination = TokenCombination::updateOrCreate([
-                'protocol_id' => $this->id,
-                'from_token_id' => $fromToken->id,
-                'to_token_id' => $toToken->id,
-            ], $properties);
-        } catch (\Exception $exception) {
-            dump($properties);
-        }
+        $tokenCombination = TokenCombination::updateOrCreate([
+            'protocol_id' => $this->id,
+            'from_token_id' => $fromToken->id,
+            'to_token_id' => $toToken->id,
+        ], $properties);
     }
 }
