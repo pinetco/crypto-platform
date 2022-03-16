@@ -23,7 +23,7 @@ class AprToApy
         $apy = pow((1 + (($this->apr / 100) / $this->frequency)), $this->frequency) - 1;
 
         if (is_infinite($apy)) {
-            return 0;
+            return 1000001; // to show 1000000+%
         }
 
         return round($apy * 100, 1);

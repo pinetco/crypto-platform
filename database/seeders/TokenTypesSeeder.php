@@ -25,5 +25,7 @@ class TokenTypesSeeder extends Seeder
         foreach ($data as $identifier => $name) {
             TokenType::create(compact('identifier', 'name'));
         }
+
+        TokenType::whereIn('identifier', [TokenType::STABLE])->update(['is_visible' => false]);
     }
 }

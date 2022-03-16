@@ -12,6 +12,10 @@ class TokenType extends Model
 
     public $timestamps = false;
 
+    protected $casts = [
+        'is_visible' => 'bool',
+    ];
+
     const ORIGINAL = 'original',
         STABLE = 'stable',
         LIQUID_STACKED = 'liquid_stacked',
@@ -21,6 +25,11 @@ class TokenType extends Model
     public function tokens()
     {
         return $this->hasMany(Token::class);
+    }
+
+    public function scopeVisible($query)
+    {
+        return $query->where('is_visible', true);
     }
 
     public static function identify($tokenName)

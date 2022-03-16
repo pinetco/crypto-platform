@@ -17,6 +17,7 @@ class CreateTokenTypesTable extends Migration
             $table->id();
             $table->string('identifier')->unique();
             $table->string('name');
+            $table->boolean('is_visible')->default(true);
         });
     }
 

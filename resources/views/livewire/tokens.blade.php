@@ -9,7 +9,7 @@
             <label for="token_type_id" class="block text-sm font-medium text-gray-700">@lang('Token Type')</label>
             <select id="token_type_id" wire:model="token_type_id" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
                 <option value="">@lang('Any')</option>
-                @foreach(\App\Models\TokenType::get() as $tokenType)
+                @foreach(\App\Models\TokenType::visible()->get() as $tokenType)
                     <option value="{{ $tokenType->id }}">{{ $tokenType->name }}</option>
                 @endforeach
             </select>
@@ -106,10 +106,10 @@
                                 </div>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
-                                {{ round($token_combination->apy, 1) }}%
+                                {{ $token_combination->apy > 1000000 ? number_format(1000000) . '%+' : number_format($token_combination->apy, 1) . '%' }}
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
-                                {{ round($token_combination->apr, 1) }}%
+                                {{ $token_combination->apr > 1000000 ? number_format(1000000) . '%+' : number_format($token_combination->apr, 1) . '%' }}
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <span class="text-gray-400 font-bold">$</span> {{ $token_combination->tvl < 100 ? $token_combination->tvl : number_format($token_combination->tvl) }}
