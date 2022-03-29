@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Jobs\Importers\Friktion;
 use App\Jobs\Importers\Orca;
 use App\Jobs\Importers\Raydium;
 use App\Jobs\Importers\SolanaLido;
@@ -27,6 +28,7 @@ class DatabaseSeeder extends Seeder
         Raydium::dispatch();
         TulipGarden::dispatch();
         Orca::dispatch();
+        Friktion::dispatch();
         // SolanaLido::dispatch(); // disabled because it has data from multiple protocols
 
         SetPopularTokens::dispatch();

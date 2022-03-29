@@ -14,10 +14,10 @@ class Protocol extends Model
 
     protected $guarded = [];
 
-    public function importTokenPairs($tokenOneName, $tokenTwoName, $properties = [])
+    public function importTokenPairs($tokenOneName, $tokenTwoName = null, $properties = [])
     {
         $fromToken = Token::getToken($tokenOneName);
-        $toToken = Token::getToken($tokenTwoName);
+        $toToken = $tokenTwoName ? Token::getToken($tokenTwoName) : null;
 
         $properties['tvl'] = TransformTVL::make($properties['tvl'])->get();
         $properties['pair_type_id'] = PairType::identify($fromToken, $toToken)->id;
@@ -35,7 +35,7 @@ class Protocol extends Model
         $tokenCombination = TokenCombination::updateOrCreate([
             'protocol_id' => $this->id,
             'from_token_id' => $fromToken->id,
-            'to_token_id' => $toToken->id,
+            'to_token_id' => optional($toToken)->id,
         ], $properties);
     }
 }

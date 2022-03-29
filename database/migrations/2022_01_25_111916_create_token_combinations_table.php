@@ -18,7 +18,7 @@ class CreateTokenCombinationsTable extends Migration
             $table->foreignId('protocol_id');
             $table->foreignId('pair_type_id');
             $table->foreignId('from_token_id');
-            $table->foreignId('to_token_id');
+            $table->foreignId('to_token_id')->nullable();
             $table->double('apy')->default(0);
             $table->double('apr')->default(0);
             $table->double('tvl')->default(0);

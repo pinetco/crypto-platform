@@ -24,16 +24,17 @@ class PairTypeIdentifier
     protected $tokenOneType;
     protected $tokenTwoType;
 
-    public function __construct(Token $tokenOne, Token $tokenTwo)
+    public function __construct(Token $tokenOne, Token $tokenTwo = null)
     {
         $this->tokenOne = $tokenOne->load('token_type');
-        $this->tokenTwo = $tokenTwo->load('token_type');
-
         $this->tokenOneName = $tokenOne->name;
-        $this->tokenTwoName = $tokenTwo->name;
-
         $this->tokenOneType = $tokenOne->token_type->identifier;
-        $this->tokenTwoType = $tokenTwo->token_type->identifier;
+
+        if ($tokenTwo) {
+            $this->tokenTwo = $tokenTwo->load('token_type');
+            $this->tokenTwoName = $tokenTwo->name;
+            $this->tokenTwoType = $tokenTwo->token_type->identifier;
+        }
     }
 
     public function get()
@@ -43,6 +44,25 @@ class PairTypeIdentifier
 
         $tokenOneType = $this->tokenOneType;
         $tokenTwoType = $this->tokenTwoType;
+
+        // single sided token logic
+        if (is_null($this->tokenTwo)) {
+            if ($this->isSol($this->tokenOne)) {
+                return PairType::SINGLE_SIDED_SOL;
+            }
+
+            if ($this->isBtcOrEth()) {
+                return PairType::SINGLE_SIDED_BTC_ETH;
+            }
+
+            if ($tokenOneType === TokenType::STABLE) {
+                return PairType::SINGLE_SIDED_STABLE;
+            }
+
+            if ($this->isOtherToken($this->tokenOne)) {
+                return PairType::SINGLE_SIDED_OTHER;
+            }
+        }
 
         if ($tokenOneType === TokenType::STABLE && $tokenTwoType === TokenType::STABLE) {
             return PairType::STABLE_TO_STABLE;
@@ -101,11 +121,6 @@ class PairTypeIdentifier
         ) {
             return PairType::BTC_ETH_TO_OTHER;
         }
-
-        // SINGLE_SIDED_STABLE
-        // SINGLE_SIDED_OTHER
-        // SINGLE_SIDED_SOL
-        // SINGLE_SIDED_BTC_ETH
 
         return PairType::SINGLE_SIDED_OTHER; // TODO: for time being
     }

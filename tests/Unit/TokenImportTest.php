@@ -2,6 +2,7 @@
 
 namespace Tests\Unit;
 
+use App\Jobs\Importers\Friktion;
 use App\Jobs\Importers\Orca;
 use App\Jobs\Importers\Raydium;
 use App\Jobs\Importers\SolanaLido;
@@ -56,6 +57,15 @@ class TokenImportTest extends TestCase
     public function it_imports_tokens_and_combinations_from_solana_lido()
     {
         SolanaLido::dispatch();
+
+        $this->assertTrue(Token::count() > 0);
+        $this->assertTrue(TokenCombination::count() > 0);
+    }
+
+    /** @test */
+    public function it_imports_tokens_and_combinations_from_friktion()
+    {
+        Friktion::dispatch();
 
         $this->assertTrue(Token::count() > 0);
         $this->assertTrue(TokenCombination::count() > 0);

@@ -28,7 +28,7 @@ class PairType extends Model
         BTC_ETH_TO_BTC_ETH = 'btc_eth_to_btc_eth',
         UNDEFINED = 'undefined';
 
-    public static function identify(Token $tokenOne, Token $tokenTwo)
+    public static function identify(Token $tokenOne, Token $tokenTwo = null)
     {
         return self::where('identifier', PairTypeIdentifier::make($tokenOne, $tokenTwo)->get())->first();
     }

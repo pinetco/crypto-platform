@@ -52,4 +52,12 @@ class TokenCombination extends Model
             });
         });
     }
+
+    public function getTokensAttribute()
+    {
+        return collect([
+            $this->from_token->name,
+            optional($this->to_token)->name,
+        ])->filter()->implode(' - ');
+    }
 }

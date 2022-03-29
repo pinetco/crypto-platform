@@ -90,7 +90,7 @@
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <a href="{{ $token_combination->protocol->url }}" target="_blank" class="text-indigo-600 hover:text-indigo-900 flex items-center">
                                     @if($token_combination->protocol->icon_path)
-                                        <img class="mr-2" src="{{ asset($token_combination->protocol->icon_path) }}" alt="{{ $token_combination->protocol->name }}">
+                                        <img class="mr-2 w-6" src="{{ asset($token_combination->protocol->icon_path) }}" alt="{{ $token_combination->protocol->name }}">
                                     @endif
                                     {{ $token_combination->protocol->name }}
                                 </a>
@@ -101,7 +101,7 @@
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <div class="flex items-center">
                                     <div class="text-sm font-medium text-gray-900">
-                                        {{ $token_combination->from_token->name }} - {{ $token_combination->to_token->name }}
+                                        {{ $token_combination->tokens }}
                                     </div>
                                 </div>
                             </td>
