@@ -7,6 +7,7 @@ use App\Jobs\Importers\Orca;
 use App\Jobs\Importers\Raydium;
 use App\Jobs\Importers\SolanaLido;
 use App\Jobs\Importers\TulipGarden;
+use App\Jobs\ImportTokenIcons;
 use App\Jobs\SetPopularTokens;
 use Illuminate\Database\Seeder;
 
@@ -32,5 +33,6 @@ class DatabaseSeeder extends Seeder
         // SolanaLido::dispatch(); // disabled because it has data from multiple protocols
 
         SetPopularTokens::dispatch();
+        ImportTokenIcons::dispatch();
     }
 }

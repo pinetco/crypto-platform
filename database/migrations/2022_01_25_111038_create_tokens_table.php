@@ -17,6 +17,7 @@ class CreateTokensTable extends Migration
             $table->id();
             $table->foreignId('token_type_id');
             $table->string('name');
+            $table->string('logo_url')->nullable();
             $table->boolean('is_popular')->default(false);
             $table->timestamps();
         });

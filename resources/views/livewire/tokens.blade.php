@@ -37,12 +37,17 @@
 
         <div class="col-span-2">
             <label for="search" class="block text-sm font-medium text-gray-700">@lang('Filter by popular tokens')</label>
-            <div class="mt-1 space-x-1 space-y-2">
+            <div class="mt-1 flex flex-wrap gap-2">
                 @foreach($popular_tokens as $token)
-                    <input id="token_{{ $token->id }}"  wire:model="token_ids" value="{{ $token->id }}" type="checkbox" class="hidden focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded">
-                    <label for="token_{{ $token->id }}" class="inline-flex cursor-pointer items-center px-3 py-1 rounded text-sm font-bold text-blue-800 {{ in_array($token->id, $token_ids) ? 'bg-blue-300' : 'bg-blue-100'  }}">
-                        {{ $token->name }}
-                    </label>
+                    <div class="">
+                        <input id="token_{{ $token->id }}"  wire:model="token_ids" value="{{ $token->id }}" type="checkbox" class="hidden focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded">
+                        <label for="token_{{ $token->id }}" class="inline-flex cursor-pointer items-center px-3 py-1 rounded text-sm font-bold text-blue-800 {{ in_array($token->id, $token_ids) ? 'bg-blue-300' : 'bg-blue-100'  }}">
+                            @if($token->logo_url)
+                                <img src="{{ $token->logo_url }}" class="w-4 h-4 mr-1" alt="">
+                            @endif
+                            {{ $token->name }}
+                        </label>
+                    </div>
                 @endforeach
             </div>
         </div>
@@ -55,31 +60,31 @@
                     <table class="min-w-full divide-y divide-gray-200">
                         <thead class="bg-gray-50">
                         <tr>
-                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            <th scope="col" class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                 @lang('Protocol')
                             </th>
-                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            <th scope="col" class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                 @lang('Pair Type')
                             </th>
-                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            <th scope="col" class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                 @lang('Pair')
                             </th>
-                            <th wire:click="sortBy('apy')" scope="col" class="px-6 py-3 cursor-pointer text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            <th wire:click="sortBy('apy')" scope="col" class="px-3 py-3 cursor-pointer text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                 @lang('APY') <x-icons.sort/>
                             </th>
-                            <th wire:click="sortBy('apr')" scope="col" class="px-6 py-3 cursor-pointer text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            <th wire:click="sortBy('apr')" scope="col" class="px-3 py-3 cursor-pointer text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                 @lang('APR') <x-icons.sort/>
                             </th>
-                            <th wire:click="sortBy('tvl')" scope="col" class="px-6 py-3 cursor-pointer text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            <th wire:click="sortBy('tvl')" scope="col" class="px-3 py-3 cursor-pointer text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                 @lang('TVL') <x-icons.sort/>
                             </th>
-                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            <th scope="col" class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                 @lang('How to invest')
                             </th>
-                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            <th scope="col" class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                 @lang('Token performance')
                             </th>
-                            <th scope="col" class="relative px-6 py-3">
+                            <th scope="col" class="relative px-3 py-3">
                                 <span class="sr-only">@lang('Action')</span>
                             </th>
                         </tr>
@@ -87,7 +92,7 @@
                         <tbody class="bg-white divide-y divide-gray-200">
                         @forelse($token_combinations as $token_combination)
                         <tr>
-                            <td class="px-6 py-4 whitespace-nowrap">
+                            <td class="px-3 py-3 whitespace-nowrap">
                                 <a href="{{ $token_combination->protocol->url }}" target="_blank" class="text-indigo-600 hover:text-indigo-900 flex items-center">
                                     @if($token_combination->protocol->icon_path)
                                         <img class="mr-2 w-6" src="{{ asset($token_combination->protocol->icon_path) }}" alt="{{ $token_combination->protocol->name }}">
@@ -95,38 +100,54 @@
                                     {{ $token_combination->protocol->name }}
                                 </a>
                             </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
+                            <td class="px-3 py-3 whitespace-nowrap text-sm">
                                 {{ $token_combination->pair_type->name }}
                             </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
+                            <td class="px-3 py-3 whitespace-nowrap">
                                 <div class="flex items-center">
-                                    <div class="text-sm font-medium text-gray-900">
-                                        {{ $token_combination->tokens }}
+                                    <div class="text-sm font-semibold text-gray-900 flex items-center gap-x-2">
+                                        <div class="flex justify-between items-center">
+                                            @if($token_combination->from_token->logo_url)
+                                                <img src="{{ $token_combination->from_token->logo_url }}" class="w-4 h-4 mr-1" alt="">
+                                            @endif
+                                            {{ $token_combination->from_token->name }}
+                                        </div>
+
+                                        @if($token_combination->to_token)
+                                            <div>-</div>
+
+                                            <div class="flex justify-between items-center">
+                                                @if($token_combination->to_token->logo_url)
+                                                    <img src="{{ $token_combination->to_token->logo_url }}" class="w-4 h-4 mr-1" alt="">
+                                                @endif
+                                                {{ $token_combination->to_token->name }}
+                                            </div>
+                                        @endif
                                     </div>
                                 </div>
                             </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
+                            <td class="px-3 py-3 font-semibold whitespace-nowrap">
                                 {{ $token_combination->apy > 1000000 ? number_format(1000000) . '%+' : number_format($token_combination->apy, 1) . '%' }}
                             </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
+                            <td class="px-3 py-3 whitespace-nowrap">
                                 {{ $token_combination->apr > 1000000 ? number_format(1000000) . '%+' : number_format($token_combination->apr, 1) . '%' }}
                             </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
+                            <td class="px-3 py-3 whitespace-nowrap">
                                 <span class="text-gray-400 font-bold">$</span> {{ $token_combination->tvl < 100 ? $token_combination->tvl : number_format($token_combination->tvl) }}
                             </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
+                            <td class="px-3 py-3 whitespace-nowrap">
 
                             </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
+                            <td class="px-3 py-3 whitespace-nowrap">
 
                             </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                            <td class="px-3 py-3 whitespace-nowrap text-right text-sm font-medium">
 
                             </td>
                         </tr>
                         @empty
                         <tr>
-                            <td colspan="8" class="px-6 py-4 whitespace-nowrap text-center text-gray-500">
+                            <td colspan="8" class="px-3 py-3 whitespace-nowrap text-center text-gray-500">
                                 Data not found
                             </td>
                         </tr>
