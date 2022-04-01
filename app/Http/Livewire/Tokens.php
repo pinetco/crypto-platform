@@ -41,7 +41,7 @@ class Tokens extends Component
         ]);
     }
 
-    public function updatingSearch()
+    public function updated()
     {
         $this->resetPage();
     }
