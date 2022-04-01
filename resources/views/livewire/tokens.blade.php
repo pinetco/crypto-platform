@@ -36,10 +36,10 @@
         </div>
 
         <div class="col-span-2">
-            <label for="search" class="block text-sm font-medium text-gray-700">@lang('Filter by popular tokens')</label>
+            <label class="block text-sm font-medium text-gray-700">@lang('Filter by popular tokens')</label>
             <div class="mt-1 flex flex-wrap gap-2">
                 @foreach($popular_tokens as $token)
-                    <div class="">
+                    <div>
                         <input id="token_{{ $token->id }}"  wire:model="token_ids" value="{{ $token->id }}" type="checkbox" class="hidden focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded">
                         <label for="token_{{ $token->id }}" class="inline-flex cursor-pointer items-center px-3 py-1 rounded text-sm font-bold text-blue-800 {{ in_array($token->id, $token_ids) ? 'bg-blue-300' : 'bg-blue-100'  }}">
                             @if($token->logo_url)
@@ -49,6 +49,37 @@
                         </label>
                     </div>
                 @endforeach
+            </div>
+
+            <!-- AND / OR Toggle -->
+            <div
+                x-data="{ value: @entangle('token_operator') }"
+                class="mt-2 flex items-center justify-start gap-x-2"
+                x-id="['token-operator']"
+            >
+                <!-- Label -->
+                <label class="transition-colors font-semibold">@lang('OR')</label>
+
+                <!-- Button -->
+                <button
+                    x-ref="toggle"
+                    @click="value = value === 'or' ? 'and' : 'or'"
+                    type="button"
+                    role="switch"
+                    :aria-checked="value"
+                    :aria-labelledby="$id('token-operator')"
+                    :class="value === 'and' ? 'bg-black border-2 border-white' : 'bg-white border-2 border-black'"
+                    class="relative w-14 py-1 px-0 inline-flex rounded-full"
+                >
+                    <span
+                        :class="value === 'and' ? 'bg-white translate-x-9' : 'bg-black translate-x-1'"
+                        class="w-3 h-3 rounded-full transition"
+                        aria-hidden="true"
+                    ></span>
+                </button>
+
+                <!-- Label -->
+                <label class="transition-colors font-semibold">@lang('AND')</label>
             </div>
         </div>
     </div>

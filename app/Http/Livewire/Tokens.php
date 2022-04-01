@@ -16,6 +16,7 @@ class Tokens extends Component
     public $token_type_id;
     public $pair_type_id;
     public $protocol_id;
+    public $token_operator = 'or';
 
     public $token_ids = [];
 
@@ -27,6 +28,7 @@ class Tokens extends Component
         'pair_type_id' => ['except' => ''],
         'protocol_id' => ['except' => ''],
         'token_ids' => ['except' => []],
+        'token_operator' => ['except' => 'or'],
     ];
 
     public function mount()
@@ -63,8 +65,13 @@ class Tokens extends Component
             })
             ->when($this->token_ids, function ($q) {
                 $q->where(function ($q) {
-                    $q->whereIn('from_token_id', $this->token_ids)
-                        ->orWhereIn('to_token_id', $this->token_ids);
+                    if($this->token_operator === 'and') {
+                        $q->whereIn('from_token_id', $this->token_ids)
+                            ->whereIn('to_token_id', $this->token_ids);
+                    } else {
+                        $q->whereIn('from_token_id', $this->token_ids)
+                            ->orWhereIn('to_token_id', $this->token_ids);
+                    }
                 });
             })
             ->when($this->sort_by, function ($q) {
